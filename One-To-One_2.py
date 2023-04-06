@@ -205,7 +205,7 @@ class BothOptional_Method3(Scene):
         cardinality = VGroup(person_marriage_cardi_1, person_marriage_cardi_2)
         #---------------------------------------------------------------------------------------------------------------------------------------#
 
-        relation = VGroup(relation, relation_conectors, cardinality).move_to([0, 0.5, 0])
+        relation = VGroup(relation, relation_conectors, cardinality).move_to([0, 1, 0])
         relation.scale(0.75)
 
         #---------------------------------------------------------------------------------------------------------------------------------------#
@@ -221,7 +221,7 @@ class BothOptional_Method3(Scene):
 			top_left_entry=Text("ID"),
 			include_outer_lines=True,
 			line_config= {"color": BLACK},
-			v_buff=0.5, h_buff=0.6).move_to([-3, -2.35, 0])
+			v_buff=0.5, h_buff=0.6).move_to([-2, -2.35, 0])
         logic_person.get_entries().set_color(BLACK)
         logic_person.add_highlighted_cell((1, 1), color= ORANGE)
         logic_person.add_highlighted_cell((1, 2), color= ORANGE)  
@@ -239,17 +239,19 @@ class BothOptional_Method3(Scene):
             top_left_entry=Text("ID"),
 			include_outer_lines=True,
 			line_config= {"color": BLACK},
-			v_buff=0.5, h_buff=0.6).move_to([0, -2.5, 0])
+			v_buff=0.5, h_buff=0.6).move_to([2, -2, 0])
         logic_marriage.get_entries().set_color(BLACK)
         logic_marriage.get_columns()[0].set_color(WHITE)
         logic_marriage.add_highlighted_cell((1, 2), color= ORANGE)
         logic_marriage.scale(0.4)
         #---------------------------------------------------------------------------------------------------------------------------------------#
 
-        #Parte 1
+        #Parte 1: apresentacao do metodo de nova relacao
         title = Tex("Method 3: New Relation", color= BLACK, font_size= 36).move_to([-4.7, 3.7, 0])
-        desc = Tex("For this method, we create a new table for the relationship, containing all of its attributes.", color= BLACK, font_size= 32).next_to(relation, UP, buff=1)
-        path = ArcBetweenPoints(start= marriage.get_center(), end= [0, -2.5, 0], angle= -1.7)
+        desc = Tex("For this method, we'll have the entity's table, as well as a new table for the relationship, containing all of its attributes.", color= BLACK, font_size= 32).next_to(relation, UP, buff=0.5)
+        path = ArcBetweenPoints(start= person.get_center(), end= [-2, -2.5, 0], angle= 1.7)
+        path2 = ArcBetweenPoints(start= marriage.get_center(), end= [2, -2, 0], angle= -1.7)
+        person_copy = person.copy()
         marriage_copy = marriage.copy()
 
         self.play(Write(title))
@@ -257,19 +259,22 @@ class BothOptional_Method3(Scene):
         self.play(FadeIn(relation, shift= UP), run_time= 2)
         self.play(Write(desc))
         self.wait(3)
-        self.play(MoveAlongPath(marriage_copy, path))
+        self.play(MoveAlongPath(person_copy, path))
+        self.wait()
+        self.play(FadeTransform(person_copy, logic_person))
+        self.wait()
+        self.play(MoveAlongPath(marriage_copy, path2))
         self.wait()
         self.play(FadeTransform(marriage_copy, logic_marriage))
         self.wait(3)
 
-        #Parte 2
+        #Parte 2: destacar a chave primaria da entidade
         to_elim = desc
-        desc = Tex("Next, we add the entity's primary key as a foreign key to the new table.", color= BLACK, font_size= 32).next_to(relation, UP, buff=1)
+        desc = Tex("Next, we add the entity's primary key as a foreign key to the new table.", color= BLACK, font_size= 32).next_to(relation, UP, buff=0.5)
         id = VGroup(person_att, person_att_code, person_att_con)
-        path = ArcBetweenPoints(start= id.get_center(), end= [-3, -2.35, 0])
         box_pk = SurroundingRectangle(id, corner_radius= 0.25, buff= 0.2, color= PURE_RED)
-        arr_pk = CurvedArrow(start_point= box_pk.get_bottom(), end_point= [-3, -1, 0], color= PURE_RED, angle= -PI/4)
-        desc_pk = Tex("Primary key", color= PURE_RED, font_size= 32).move_to([-4, -1, 0])
+        arr_pk = CurvedArrow(start_point= box_pk.get_left(), end_point= [-3, 1, 0], color= PURE_RED, angle= -PI/4)
+        desc_pk = Tex("Primary key", color= PURE_RED, font_size= 32).move_to([-4, 1, 0])
 
         self.play(FadeOut(to_elim))
         self.wait()
@@ -282,11 +287,13 @@ class BothOptional_Method3(Scene):
         self.play(Write(desc_pk))
         self.wait(2)
 
-        #Parte 3
+        #Parte 3: Adicionar a chave primaria da entidade a nova relacao marriage e identificar chave estrangeira
         to_elim = VGroup(box_pk, arr_pk, desc_pk)
         box_fk = SurroundingRectangle(logic_marriage.get_columns()[0], corner_radius= 0.2, buff= 0.25, color= PURE_RED)
-        arr_fk = CurvedArrow(start_point= box_fk.get_top(), end_point= [-2, -1, 0], color= PURE_RED, angle= PI/4)
-        desc_fk = Tex("Foreign key", color= PURE_RED, font_size= 32).move_to([-3, -1, 0])
+        box_fk2 = SurroundingRectangle(logic_person.get_columns()[0], corner_radius= 0.2, buff= 0.25, color= PURE_RED)
+        arr_fk = CurvedArrow(start_point= box_fk.get_top(), end_point= box_fk2.get_top(), color= PURE_RED, angle= PI/4)
+        desc_fk = Tex("Foreign key", color= PURE_RED, font_size= 32).next_to(arr_fk, UP, SMALL_BUFF)
+        path = ArcBetweenPoints(start= id.get_center(), end= [0, -2, 0])
         column_copy = logic_marriage.get_columns()[0].copy()
         column_copy.set_color(BLACK)
         id_copy = id.copy()
@@ -294,12 +301,13 @@ class BothOptional_Method3(Scene):
         self.play(FadeOut(to_elim))
         self.wait()
         self.play(MoveAlongPath(id_copy, path))
+        self.play(Circumscribe(id_copy, Circle, fade_out= True, color= PURE_RED))
         self.wait()
         self.play(FadeTransform(id_copy, column_copy))
         logic_marriage.add_highlighted_cell((1, 1), color= ORANGE)
         logic_marriage2 = VGroup(logic_marriage, column_copy)
         self.wait()
-        self.play(Create(box_fk))
+        self.play(Create(box_fk), Create(box_fk2))
         self.wait()
         self.play(Create(arr_fk))
         self.wait()
@@ -307,9 +315,10 @@ class BothOptional_Method3(Scene):
         self.wait(2)
 
         #Parte 4
-        to_elim = VGroup(box_fk, arr_fk, desc_fk, desc)
+        to_elim = (desc)
         path = ArcBetweenPoints(start= relation.get_center(), end= [-3, -2.5, 0])
         move = MoveAlongPath(relation, path)
+        relation_group = VGroup(logic_marriage2, box_fk, box_fk2, arr_fk, desc_fk, logic_person)
         pros = Tex("PROS:", color= PURE_GREEN, font_size= 40).move_to([-3, 3, 0])
         pro_1 = Tex("-Pro n1", color= BLACK, font_size= 32).next_to(pros, DOWN, buff= 0.25)
         pro_2 = Tex("-Pro n2", color= BLACK, font_size= 32).next_to(pro_1, DOWN, buff= 0.25)
@@ -318,7 +327,8 @@ class BothOptional_Method3(Scene):
         con_2 = Tex("-Con n2", color= BLACK, font_size= 40).next_to(con_1, DOWN, buff= 0.25)
 
         self.play(FadeOut(to_elim))
-        self.play(move, logic_marriage2.animate.shift(RIGHT*3), run_time= 3)
+        self.wait()
+        self.play(move, relation_group.animate.shift(RIGHT*3), run_time= 3)
         self.play(Write(pros))
         self.play(Write(cons))
         self.play(Write(pro_1))
