@@ -23,7 +23,7 @@ dist_shape = SurroundingRectangle(dist_title, color = BLACK, buff = 0.4)
 dist_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(dist_shape.get_bottom(), DOWN).shift(RIGHT*0.5)
 dist_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(dist_shape.get_bottom(), DOWN).shift(RIGHT).shift(DOWN*0.2)
 dist_att_name = Tex("Name", color= BLACK, font_size= 20).next_to(dist_att, DOWN, buff= 0.05)
-dist_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(dist_att2, DOWN, buff= 0.05)
+dist_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(dist_att2, DOWN, buff= 0.05)
 dist_att_con = Line(start= [0.5, -0.55, 0], end= dist_att.get_top(), color= BLACK)
 dist_att_con2 = Line(start= [1, -0.55, 0], end= dist_att2.get_top(), color= BLACK)
 
@@ -36,7 +36,7 @@ city_title = Text("City", color = BLACK, font_size= 24)
 city_shape = dist_shape.copy().next_to(city_title.get_left()).shift(LEFT*1.21)
 city_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(city_shape.get_bottom(), DOWN).shift(LEFT).shift(DOWN*0.2)
 city_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(city_shape.get_bottom(), DOWN).shift(LEFT*0.5)
-city_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(city_att, DOWN, buff= 0.05)
+city_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(city_att, DOWN, buff= 0.05)
 city_att_name = Tex("Name", color= BLACK, font_size= 20).next_to(city_att2, DOWN, buff= 0.05)
 city_att_con = Line(start= [-1, -0.55, 0], end= city_att.get_top(), color= BLACK)
 city_att_con2 = Line(start= [-0.5, -0.55, 0], end= city_att2.get_top(), color= BLACK)
@@ -50,7 +50,7 @@ prod_title = Text("Product", color = BLACK, font_size= 24)
 prod_shape = SurroundingRectangle(prod_title, color = BLACK, buff = 0.4)
 prod_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(prod_shape.get_bottom(), DL*1.5)
 prod_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(prod_shape.get_bottom(), DOWN)
-prod_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(prod_att, DOWN, buff= 0.05)
+prod_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(prod_att, DOWN, buff= 0.05)
 prod_att_name = Tex("Name", color= BLACK, font_size= 20).next_to(prod_att2, DOWN, buff= 0.05)
 prod_att_con = Line(start= [-0.475, -0.55, 0], end= prod_att.get_top(), color= BLACK)
 prod_att_con2 = Line(start= prod_shape.get_bottom(), end= prod_att2.get_top(), color= BLACK)
@@ -94,7 +94,7 @@ logic_city = Table(
     ["Frankfurt"]],
     row_labels=[Text("01"), Text("02"), Text("03"), Text("04"), Text("05"), Text("06")],
     col_labels=[Text("Name")],
-    top_left_entry=Text("Code"),
+    top_left_entry=Text("ID"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
     v_buff=0.5, h_buff=0.6)
@@ -115,7 +115,7 @@ logic_prod = Table(
     ["Cooler"]],
     row_labels=[Text("101"), Text("102"), Text("103"), Text("104"), Text("105"), Text("106")],
     col_labels=[Text("Name")],
-    top_left_entry=Text("Code"),
+    top_left_entry=Text("ID"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
     v_buff=0.5, h_buff=0.6)
@@ -136,7 +136,7 @@ logic_dist = Table(
     ["Enesco"]],
     row_labels=[Text("111"), Text("112"), Text("113"), Text("114"), Text("115"), Text("116")],
     col_labels=[Text("Name")],
-    top_left_entry=Text("Code"),
+    top_left_entry=Text("ID"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
     v_buff=0.5, h_buff=0.6)
@@ -187,7 +187,7 @@ class Introduction(Scene):
 
         #Parte 2: Indicar Metodo
         to_elim = VGroup(intro, intro_2, intro_3)
-        intro = Tex("The proper way to model this type of relationship is by creating a new table for the relationship.", color= BLACK, font_size= 32).next_to(relation, UP, buff=2)
+        intro = Tex("The proper way to model this type of relationship is by referencing all entities with the central entity.", color= BLACK, font_size= 32).next_to(relation, UP, buff=2)
         intro_2 = Tex("This way, all entities will have their own tables:", color= BLACK, font_size= 32).next_to(intro, DOWN, buff= MED_SMALL_BUFF)
         self.play(FadeOut(to_elim))
         self.play(Write(intro))
@@ -229,7 +229,7 @@ class Introduction(Scene):
         self.wait(2)
 
         #Parte 4: Transformacao da table de relacao
-        desc = Tex("The relationship will also have its own table:", color= BLACK, font_size= 32).next_to(relation, UP, buff= MED_SMALL_BUFF)
+        desc = Tex("The central entity will also have its own table:", color= BLACK, font_size= 32).next_to(relation, UP, buff= MED_SMALL_BUFF)
         dist_new.move_to([0, 1.5, 0])
 
         left_part = VGroup(city, distr_city, distr_city_cardi, city_distr_cardi)
@@ -248,7 +248,7 @@ class Introduction(Scene):
         self.wait(2)
 
         #Parte 5: Explicar chaves estrangeiras
-        desc = Tex("Next, the primary key of each entity will be a foreign key to the relationship's table.", color= BLACK, font_size= 32).next_to(relation, UP, buff= SMALL_BUFF)
+        desc = Tex("Next, the primary key of each entity will be a foreign key to the central entity's table.", color= BLACK, font_size= 32).next_to(relation, UP, buff= SMALL_BUFF)
 
         p1 = Point(logic_city.get_columns()[0].get_top()).shift(UP*0.45)
         pi = Point(logic_city.get_columns()[0].get_top()).shift(UP*0.1)
