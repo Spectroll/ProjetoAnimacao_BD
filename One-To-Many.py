@@ -24,7 +24,7 @@ dept_title = Text("Department", color = BLACK, font_size= 24)
 dept_shape = SurroundingRectangle(dept_title, color = BLACK, buff = 0.4)
 dept_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(dept_shape.get_bottom(), DL*1.5)
 dept_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(dept_shape.get_bottom(), DOWN)
-dept_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(dept_att, DOWN, buff= 0.05)
+dept_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(dept_att, DOWN, buff= 0.05)
 dept_att_name = Tex("Name", color= BLACK, font_size= 20).next_to(dept_att2, DOWN, buff= 0.05)
 dept_att_con = Line(start= [-0.475, -0.55, 0], end= dept_att.get_top(), color= BLACK)
 dept_att_con2 = Line(start= dept_shape.get_bottom(), end= dept_att2.get_top(), color= BLACK)
@@ -110,14 +110,14 @@ logic_dept.scale(0.4)
 #Modelo logico da relacao em adicao de atributos:
 #------------------------------------------------------------------------------------#
 work_adding = Table(
-   [["Veronica", "101", "Finance", "08/08/2008"],
-    ["Roger", "102", "Marketing", "09/08/2009"],
-    ["Elisa", "103", "Comercial", "10/02/2009"],
-    ["Billy", "104", "Human Resources", "05/12/2008"],
-    ["Adam", "105", "Administrative", "03/05/2015"],
-    ["Alex", "106", "Operations", "09/01/2015"]],
+   [["Veronica", "101", "08/08/2008"],
+    ["Roger", "102", "09/08/2009"],
+    ["Elisa", "103", "10/02/2009"],
+    ["Billy", "104", "05/12/2008"],
+    ["Adam", "105", "03/05/2015"],
+    ["Alex", "106", "09/01/2015"]],
     row_labels=[Text("01"), Text("02"), Text("03"), Text("04"), Text("05"), Text("06")],
-    col_labels=[Text("Name"), Text("Dept_ID"), Text("Dept_Name"), Text("Date")],
+    col_labels=[Text("Name"), Text("Dept_ID"), Text("Date")],
     top_left_entry=Text("ID"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
@@ -202,8 +202,8 @@ class Attribute_Adding(Scene):
         #Parte 1: Introducao ao metodo
         relation.move_to([0, 0.75, 0])
         title = Tex("Method 1: Attribute adding", color= BLACK, font_size= 36).move_to([-4.8, 3.75, 0])
-        desc = Tex("For this method, add the attributes from one entity to the other one.", color= BLACK, font_size= 32).next_to(relation, UP, buff=1.25)
-        desc2 = Tex("In this case, the attributes from the cardinality (1,1) entity will be added to the cardinality (0, N) entity.", color= BLACK, font_size= 32).next_to(desc, DOWN, buff=0.25)
+        desc = Tex("For this method, add the Primary Key from one entity to the other one.", color= BLACK, font_size= 32).next_to(relation, UP, buff=1.25)
+        desc2 = Tex("In this case, the PK from the cardinality (1,1) entity will be added to the cardinality (0, N) entity.", color= BLACK, font_size= 32).next_to(desc, DOWN, buff=0.25)
 
         self.play(Write(title))
         self.wait()
@@ -244,17 +244,10 @@ class Attribute_Adding(Scene):
         column_id_copy.set_color(BLACK)
         id_copy = id.copy()
 
-        name = VGroup(dept_att2, dept_att_con2, dept_att_name)
-        path_end_name = Point(work_adding.get_columns()[3].get_top()).shift(UP*0.5)
-        path_name = ArcBetweenPoints(name.get_center(), end= path_end_name.get_center(), angle = PI/4)
-        column_name_copy = work_adding.get_columns()[3].copy()
-        column_name_copy.set_color(BLACK)
-        name_copy = name.copy()
-
         date = VGroup(work_att_date, work_att, work_att_connect)
-        path_end_date = Point(work_adding.get_columns()[4].get_top()).shift(UP*0.5)
+        path_end_date = Point(work_adding.get_columns()[3].get_top()).shift(UP*0.5)
         path_date = ArcBetweenPoints(date.get_center(), end= path_end_date.get_center(), angle = PI/4)
-        column_date_copy = work_adding.get_columns()[4].copy()
+        column_date_copy = work_adding.get_columns()[3].copy()
         column_date_copy.set_color(BLACK)
         date_copy = date.copy()
 
@@ -265,18 +258,11 @@ class Attribute_Adding(Scene):
         work_adding.add_highlighted_cell((1, 3), color= ORANGE)
         self.wait(2)
 
-        self.play(Circumscribe(name, Circle, fade_out= True, color= PURE_RED, run_time= 2))
-        self.play(MoveAlongPath(name_copy, path_name))
-        self.wait()
-        self.play(ReplacementTransform(name_copy, column_name_copy))
-        work_adding.add_highlighted_cell((1, 4), color= ORANGE)
-        self.wait(2)
-
         self.play(Circumscribe(date, Circle, fade_out= True, color= PURE_RED, run_time= 2))
         self.play(MoveAlongPath(date_copy, path_date))
         self.wait()
         self.play(ReplacementTransform(date_copy, column_date_copy))
-        work_adding.add_highlighted_cell((1, 5), color= ORANGE)
+        work_adding.add_highlighted_cell((1, 4), color= ORANGE)
         self.wait(2)
 
         #Parte 4: Representar o relacionamento pela chave estrangeira
@@ -286,14 +272,14 @@ class Attribute_Adding(Scene):
         org_copy.generate_target()
         org_copy.target.next_to(work, DOWN)#.scale(0.8)
         
-        line = Line(start= [-4.3, 0, 0], end= [1, 0, 0]).set_color(PURE_RED)
+        line = Line(start= [-5.3, 0, 0], end= [1, 0, 0]).set_color(PURE_RED)
         line2= Arrow(start= [1.1, -0.1, 0], end= [1.1, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
-        line3= Arrow(start= [-4.4, -0.1, 0], end= [-4.4, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
+        line3= Arrow(start= [-5.4, -0.1, 0], end= [-5.4, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
         arco = ArcBetweenPoints(start= line.get_end(), end= line2.get_start(), angle = - PI/2).set_color(PURE_RED)
         arco2 = ArcBetweenPoints(start= line.get_start(), end= line3.get_start()).set_color(PURE_RED)
         fk = VGroup(line, arco, arco2, line2, line3)
         table_group = VGroup(logic_dept, work_adding)
-        fk.move_to(table_group.get_top()).shift(UP*0.25).shift(LEFT*2)
+        fk.move_to(table_group.get_top()).shift(UP*0.25).shift(LEFT*0.85)
         key = Tex("FK", color= PURE_RED, font_size= 38).next_to(fk, UP, SMALL_BUFF)
 
         self.play(Write(exp))
@@ -308,7 +294,7 @@ class Attribute_Adding(Scene):
         self.wait()
 
         #Parte 5: Conclusao
-        final = VGroup(fk, key, logic_dept, work_adding, column_name_copy, column_id_copy, column_date_copy)
+        final = VGroup(fk, key, logic_dept, work_adding, column_id_copy, column_date_copy)
         pros = Tex("Pros:", color= PURE_GREEN, font_size= 40).move_to([-3, 3, 0])
         pro_1 = Tex("-Enables future expansions.", color= BLACK, font_size= 32).next_to(pros, DOWN, buff= 0.25)
         pro_2 = Tex("-Simple implementation.", color= BLACK, font_size= 32).next_to(pro_1, DOWN, buff= 0.25)
