@@ -5,15 +5,6 @@ from manim import *
 config.background_color = WHITE
 config.max_files_cached = 1000
 
-#Ideias para animação de tutorial: 
-
-
-#   1- Explicar como utilizar o site apontando com as setinhas
-#   1.5- Mostrar como se utiliza o player para avançar e voltar
-#   2- Explicar a criação de uma Table conceitual para um modelo relacional
-#   3- Indicar os tipos de relação baseado na cardinalidade
-
-
 class Tutorial(Scene):
     def construct(self):
         #Bloco para relacao marriage:
@@ -62,7 +53,7 @@ class Tutorial(Scene):
 
         #Começo da animação
 
-        intro = Tex("In this example animation, we'll be presenting you some basics as to how to navigate through the website.", color= BLACK, font_size= 36)
+        intro = Tex("Here, we'll present some essential guidance on how to navigate the website and its animations.", color= BLACK, font_size= 36)
         intro.move_to([0, 3, 0])
         intro_foward = Tex("Use the button below to start playing the next scene.", color= BLACK, font_size= 36).next_to(intro, DOWN, buff= 2)
         intro_previous = Tex('You can also return to the previous scene by using the <previous> button', color= BLACK, font_size= 36).next_to(intro, DOWN, buff= 2)
@@ -92,10 +83,10 @@ class Tutorial(Scene):
 
         #Parte 3
         to_elim = VGroup(intro, intro_previous, intro_replay, arrow)
-        intro = Tex("Next, let's see an actual example on database concepts.", color= BLACK, font_size= 36).move_to([0, 3, 0])
-        intro_1 = Tex("All tutorials in this website will present some options on how to transform a conceptual database design into a relational model.", color= BLACK, font_size= 36)
+        intro = Tex("The focus of this website is Logical Database Design!", color= BLACK, font_size= 36).move_to([0, 3, 0])
+        intro_1 = Tex("So, all of its animations discuss options for TRANSFORMING a conceptual database design into a relational model.", color= BLACK, font_size= 36)
         intro_1.next_to(intro, DOWN)
-        intro_concep = Tex("For each tutorial, an example design like this one will be shown", color= BLACK, font_size= 36).next_to(intro_1, DOWN)
+        intro_concep = Tex("We will use EER diagrams like the one below for each animation.", color= BLACK, font_size= 36).next_to(intro_1, DOWN)
         self.play(ShrinkToCenter(to_elim))
         self.wait()
         self.play(Write(intro), run_time= 2)
@@ -117,7 +108,7 @@ class Tutorial(Scene):
         arrow_diamond = CurvedArrow(start_point= [2.5, 2.55, 0], end_point= [4, 0, 0], color= BLACK, angle= -3.14/2)
         exp_diamond = Tex('Diamond shapes represent relations', color= BLACK, font_size= 32).move_to([4, -0.25, 0])
         arrow_card = Arrow(start= [0, 1.5, 0], end= [0, -1.5, 0], color= BLACK)
-        exp_card = Tex('Lines connecting shapes represent how entities relate with one another', color= BLACK, font_size= 32).move_to([0, -1.5, 0])
+        exp_card = Tex('Lines connecting shapes represent how entities relate to one another', color= BLACK, font_size= 32).move_to([0, -1.5, 0])
 
         self.play(Succession( 
             Create(arrow_square),
@@ -161,8 +152,8 @@ class Tutorial(Scene):
         self.play(FadeOut(to_elim, shift= RIGHT))
         self.play(person.animate.shift(RIGHT*1.7))
         self.wait()
-        intro = Tex('For relational models, entities are always translated as tables.', color= BLACK, font_size= 32).next_to(person, UP, buff= 3)
-        intro_1 = Tex('Here is how to transform them:', color= BLACK, font_size= 32).next_to(intro, DOWN)
+        intro = Tex('For relational models, entities are always transformed into RELATIONS.', color= BLACK, font_size= 32).next_to(person, UP, buff= 3)
+        intro_1 = Tex('Please take a look at how we are going to show this transformation.', color= BLACK, font_size= 32).next_to(intro, DOWN)
         self.play(Write(intro))
         self.wait()
         self.play(Write(intro_1))
@@ -178,7 +169,7 @@ class Tutorial(Scene):
         id = VGroup(person_att, person_att_code, person_att_con)
         pk_arr = CurvedArrow(start_point= logic_person.get_entries([1, 1]).get_top(), end_point= [0, 2, 0], color= BLACK)
         pk_arr_0 = CurvedArrow(start_point= person_att_code.get_left(), end_point= [-3, -3, 0], color= BLACK)
-        intro = Tex('First column will be the primary key', color= BLACK, font_size= 28).move_to([-2.5, 2, 0])
+        intro = Tex('First attribute will be the PRIMARY KEY', color= BLACK, font_size= 28).move_to([-3, 2, 0])
         intro_0 = Tex('Primary keys are identified by the filled circle', color= BLACK, font_size= 28).next_to(pk_arr_0.get_end(), DOWN*1.5)
 
         self.play(FadeOut(to_elim))
@@ -228,7 +219,7 @@ class Tutorial(Scene):
         name_copy = name.copy()
         column_copy = logic_person.get_columns()[1].copy()
         column_copy.set_color(BLACK)
-        path = ArcBetweenPoints(start= id.get_center(), end= [0, 0, 0], angle= 1.7)
+        path = ArcBetweenPoints(start= name.get_center(), end= [0, 0, 0], angle= 1.7)
 
         self.play(FadeOut(to_elim))
         self.play(MoveAlongPath(name_copy, path))
@@ -240,7 +231,7 @@ class Tutorial(Scene):
 
         #Parte 10
         to_elim = VGroup(column1_copy, column_copy, logic_person)
-        intro = Tex('To further simplify explanations, this type of transformation will be shown as a fade, like this:', color= BLACK, font_size= 32).next_to([0, 0, 0], UP*10)
+        intro = Tex('This type of transformation will be shown as a fade to simplify explanations further. Take a look!', color= BLACK, font_size= 32).next_to([0, 0, 0], UP*10)
         person_copy = person.copy()
         logic_person.get_entries().set_color(BLACK)
 
