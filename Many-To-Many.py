@@ -24,7 +24,7 @@ eng_title = Text("Engineer", color = BLACK, font_size= 24)
 eng_shape = SurroundingRectangle(eng_title, color = BLACK, buff = 0.4)
 eng_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(eng_shape.get_bottom(), DL*1.5)
 eng_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(eng_shape.get_bottom(), DOWN)
-eng_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(eng_att, DOWN, buff= 0.05)
+eng_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(eng_att, DOWN, buff= 0.05)
 eng_att_name = Tex("Name", color= BLACK, font_size= 20).next_to(eng_att2, DOWN, buff= 0.05)
 eng_att_con = Line(start= [-0.475, -0.55, 0], end= eng_att.get_top(), color= BLACK)
 eng_att_con2 = Line(start= eng_shape.get_bottom(), end= eng_att2.get_top(), color= BLACK)
@@ -38,7 +38,7 @@ proj_title = Text("Project", color = BLACK, font_size= 24)
 proj_shape = SurroundingRectangle(proj_title, color = BLACK, buff = 0.4)
 proj_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(proj_shape.get_bottom(), DL*1.5)
 proj_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(proj_shape.get_bottom(), DOWN)
-proj_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(proj_att, DOWN, buff= 0.05)
+proj_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(proj_att, DOWN, buff= 0.05)
 proj_att_name = Tex("Title", color= BLACK, font_size= 20).next_to(proj_att2, DOWN, buff= 0.05)
 proj_att_con = Line(start= [-0.475, -0.55, 0], end= proj_att.get_top(), color= BLACK)
 proj_att_con2 = Line(start= proj_shape.get_bottom(), end= proj_att2.get_top(), color= BLACK)
@@ -77,7 +77,7 @@ logic_proj = Table(
     ["SD_Drone"]],
     row_labels=[Text("101"), Text("102"), Text("103"), Text("104"), Text("105"), Text("106")],
     col_labels=[Text("Title")],
-    top_left_entry=Text("Code"),
+    top_left_entry=Text("ID"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
     v_buff=0.5, h_buff=0.6)
@@ -98,7 +98,7 @@ logic_eng = Table(
     ["Alex"]],
     row_labels=[Text("01"), Text("02"), Text("03"), Text("04"), Text("05"), Text("06")],
     col_labels=[Text("Name")],
-    top_left_entry=Text("Code"),
+    top_left_entry=Text("ID"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
     v_buff=0.5, h_buff=0.6)
@@ -267,7 +267,7 @@ class Introduction(Scene):
         fk.move_to(table_group.get_top()).shift(UP*0.25).shift(LEFT*4.4)
 
         fk2 = VGroup(line4, arco3, arco4, line5, line6)
-        fk2.move_to(table_group2.get_top()).shift(UP*0.25).shift(RIGHT*4.3)
+        fk2.move_to(table_group2.get_top()).shift(UP*0.25).shift(RIGHT*4.15)
         key = Tex("FK", color= PURE_RED, font_size= 38).next_to(fk, UP, SMALL_BUFF)
         key2 = key.copy().next_to(fk2, UP, SMALL_BUFF)
 
