@@ -22,7 +22,7 @@ conf_title = Text("Conference", color = BLACK, font_size= 24)
 conf_shape = SurroundingRectangle(conf_title, color = BLACK, buff = 0.4)
 conf_att = Circle(radius= 0.1, color= BLACK, fill_opacity= 1).next_to(conf_shape.get_bottom(), DL*1.5)
 conf_att2 = Circle(radius= 0.1, color= BLACK, fill_opacity= 0).next_to(conf_shape.get_bottom(), DOWN)
-conf_att_code = Tex("Code", color= BLACK, font_size= 20).next_to(conf_att, DOWN, buff= 0.05)
+conf_att_code = Tex("ID", color= BLACK, font_size= 20).next_to(conf_att, DOWN, buff= 0.05)
 conf_att_name = Tex("Name", color= BLACK, font_size= 20).next_to(conf_att2, DOWN, buff= 0.05)
 conf_att_con = Line(start= [-0.475, -0.55, 0], end= conf_att.get_top(), color= BLACK)
 conf_att_con2 = Line(start= conf_shape.get_bottom(), end= conf_att2.get_top(), color= BLACK)
@@ -143,14 +143,14 @@ org_merge.scale(0.4)
 #Modelo logico de Organiza em Adicao de Atributos
 #---------------------------------------------------------------------------------------#
 org_adding = Table(
-    [["01","Innovative Eng.","03/10/2023"],
-    ["02", "Bioinformatics","11/06/2023"],
-    ["03", "Intelligent Control","12/02/2023"],
-    ["04","Radiology", "05/09/2023"],
-    ["05","Nanotek Summit", "01/04/2024"],
-    ["06", "Smart Structures","05/07/2024"]],
+    [["03/10/2023","01"],
+    ["11/06/2023","02"],
+    ["12/02/2023","03"],
+    ["05/09/2023","04"],
+    ["01/04/2024","05"],
+    ["05/07/2024","06"]],
     row_labels=[Text("800 Sylvan Ave."), Text("1230 Washington Ave."), Text("416 Rowland St."), Text("130 West Main St."), Text("420 Free Road"), Text("1520 Harrison Ave.")],
-    col_labels=[Text("Conf_ID"), Text("Conf_Name"), Text("Conf_Date")],
+    col_labels=[Text("Conf_Date"), Text("Conf_ID")],
     top_left_entry=Text("Address"),
     include_outer_lines=True,
     line_config= {"color": BLACK},
@@ -330,46 +330,32 @@ class Attribute_Adding(Scene):
         self.wait(2)
 
         #Parte 3: Destacar atributos de Conferencia e adicionar ao modelo logico de Comissao
-        id = VGroup(conf_att, conf_att_con, conf_att_code)
-        path_end = Point(org_adding.get_columns()[1].get_top()).shift(UP*0.5)
-        path_id = ArcBetweenPoints(start= id.get_center(), end= path_end.get_center(), angle= PI/4)
-        column_id_copy = org_adding.get_columns()[1].copy()
-        column_id_copy.set_color(BLACK)
-        id_copy = id.copy()
-
-        name = VGroup(conf_att2, conf_att_con2, conf_att_name)
-        path_end_name = Point(org_adding.get_columns()[2].get_top()).shift(UP*0.5)
-        path_name = ArcBetweenPoints(name.get_center(), end= path_end_name.get_center(), angle = PI/4)
-        column_name_copy = org_adding.get_columns()[2].copy()
-        column_name_copy.set_color(BLACK)
-        name_copy = name.copy()
-
         date = VGroup(org_att, org_att_connect, org_att_date)
-        path_end = Point(org_adding.get_columns()[3].get_top()).shift(UP*0.5)
+        path_end = Point(org_adding.get_columns()[1].get_top()).shift(UP*0.5)
         path_date = ArcBetweenPoints(start= date.get_center(), end= path_end.get_center(), angle= PI/4)
-        column_date_copy = org_adding.get_columns()[3].copy()
+        column_date_copy = org_adding.get_columns()[1].copy()
         column_date_copy.set_color(BLACK)
         date_copy = date.copy()
 
-        self.play(Circumscribe(id, Circle, fade_out= True, color= PURE_RED))
-        self.play(MoveAlongPath(id_copy, path_id))
-        self.wait()
-        self.play(ReplacementTransform(id_copy, column_id_copy))
-        org_adding.add_highlighted_cell((1, 2), color= ORANGE)
-        self.wait(2)
-
-        self.play(Circumscribe(name, Circle, fade_out= True, color= PURE_RED))
-        self.play(MoveAlongPath(name_copy, path_name))
-        self.wait()
-        self.play(ReplacementTransform(name_copy, column_name_copy))
-        org_adding.add_highlighted_cell((1, 3), color= ORANGE)
-        self.wait(2)
+        id = VGroup(conf_att, conf_att_con, conf_att_code)
+        path_end = Point(org_adding.get_columns()[2].get_top()).shift(UP*0.5)
+        path_id = ArcBetweenPoints(start= id.get_center(), end= path_end.get_center(), angle= PI/4)
+        column_id_copy = org_adding.get_columns()[2].copy()
+        column_id_copy.set_color(BLACK)
+        id_copy = id.copy()
 
         self.play(Circumscribe(date, Circle, fade_out= True, color= PURE_RED))
         self.play(MoveAlongPath(date_copy, path_date))
         self.wait()
         self.play(ReplacementTransform(date_copy, column_date_copy))
-        org_adding.add_highlighted_cell((1, 4), color= ORANGE)
+        org_adding.add_highlighted_cell((1, 2), color= ORANGE)
+        self.wait(2)
+
+        self.play(Circumscribe(id, Circle, fade_out= True, color= PURE_RED))
+        self.play(MoveAlongPath(id_copy, path_id))
+        self.wait()
+        self.play(ReplacementTransform(id_copy, column_id_copy))
+        org_adding.add_highlighted_cell((1, 3), color= ORANGE)
         self.wait(2)
 
         #Parte 4: Representar o relacionamento pela chave estrangeira
@@ -379,14 +365,14 @@ class Attribute_Adding(Scene):
         org_copy.generate_target()
         org_copy.target.next_to(org, DOWN)#.scale(0.8)
         
-        line = Line(start= [-4.1, 0, 0], end= [1.9, 0, 0]).set_color(PURE_RED)
-        line2= Arrow(start= [2, -0.1, 0], end= [2, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
-        line3= Arrow(start= [-4.2, -0.1, 0], end= [-4.2, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
+        line = Line(start= [-4.4, 0, 0], end= [4.5, 0, 0]).set_color(PURE_RED)
+        line2= Arrow(start= [4.6, -0.1, 0], end= [4.6, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
+        line3= Arrow(start= [-4.5, -0.1, 0], end= [-4.5, -0.47, 0], max_stroke_width_to_length_ratio= 10, max_tip_length_to_length_ratio= 0.5).set_color(PURE_RED)
         arco = ArcBetweenPoints(start= line.get_end(), end= line2.get_start(), angle = - PI/2).set_color(PURE_RED)
         arco2 = ArcBetweenPoints(start= line.get_start(), end= line3.get_start()).set_color(PURE_RED)
         fk = VGroup(line, arco, arco2, line2, line3)
         table_group = VGroup(logic_conf, org_adding)
-        fk.move_to(table_group.get_top()).shift(UP*0.25).shift(LEFT*2)
+        fk.move_to(table_group.get_top()).shift(UP*0.25).shift(LEFT*0.15)
         key = Tex("FK", color= PURE_RED, font_size= 38).next_to(fk, UP, SMALL_BUFF)
 
         self.play(Write(exp))
@@ -401,7 +387,7 @@ class Attribute_Adding(Scene):
         self.wait()
 
         #Parte 5: Conclusao
-        final = VGroup(fk, key, logic_conf, org_adding, column_id_copy, column_date_copy, column_name_copy)
+        final = VGroup(fk, key, logic_conf, org_adding, column_id_copy, column_date_copy)
         pros = Tex("Pros:", color= PURE_GREEN, font_size= 40).move_to([-3, 3, 0])
         pro_1 = Tex("-Easy implementation", color= BLACK, font_size= 32).next_to(pros, DOWN, buff= 0.25)
         pro_2 = Tex("-Model is extendable", color= BLACK, font_size= 32).next_to(pro_1, DOWN, buff= 0.25)
